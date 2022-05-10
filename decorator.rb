@@ -14,3 +14,15 @@ class BaseDecorator < Nemeable
     @nameable.correct_name
   end
 end
+
+class CapitalizeDecorator < BaseDecorator
+  def correct_name
+    @nameable.correct_name.capitalize
+  end
+end
+
+class TrimmerDecorator < BaseDecorator
+  def correct_name
+    @nameable.correct_name = correct_name[0..9]
+  end
+end
