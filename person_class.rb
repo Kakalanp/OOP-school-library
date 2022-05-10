@@ -12,7 +12,7 @@ class Person
   private
 
   def of_age?
-    p @age >= 18
+    @age >= 18
   end
 
   public
