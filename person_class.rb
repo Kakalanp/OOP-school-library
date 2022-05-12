@@ -1,7 +1,7 @@
 require './decorator'
 
 class Person < Nemeable
-  attr_accessor :name, :age, :id, :parent_permission
+  attr_accessor :name, :age, :id, :parent_permission, :rentals
 
   def initialize(age, name = 'Unknown', parent_permission: true)
     super()
@@ -9,6 +9,7 @@ class Person < Nemeable
     @age = age
     @parent_permission = parent_permission
     @id = Random.rand(1..1000)
+    @rentals = []
   end
 
   private
@@ -25,5 +26,10 @@ class Person < Nemeable
 
   def correct_name
     @name
+  end
+
+  def add_rental(book)
+    @rentals.push(book)
+    book.rentals = self
   end
 end
