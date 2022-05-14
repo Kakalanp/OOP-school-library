@@ -1,18 +1,19 @@
 require './person_class'
 
-Class Student < Person
-attr_accessor :classroom
+class Student < Person
+  attr_accessor :classroom
 
-def initialize(age, classroom, name = 'Unknown', parent_permission: true)
-  super(age, name, parent_permission)
-  @classroom = classroom
-end
+  def initialize(age, classroom, parent_permission, name = 'Unknown')
+    super(age, name, parent_permission: parent_permission)
+    @classroom = classroom
+  end
 
-def classrooms(classroom)
-  @classroom = classroom
-  classroom.student.push(self) unless classroom.student.include?(self)
-end
+  def classrooms(classroom)
+    @classroom = classroom
+    classroom.student.push(self) unless classroom.student.include?(self)
+  end
 
-def play_hooky
-  "¯\(ツ)/¯"
+  def play_hooky
+    "¯\(ツ)/¯"
+  end
 end

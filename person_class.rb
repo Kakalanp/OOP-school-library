@@ -1,7 +1,9 @@
 require './decorator'
+require './rental_class'
 
 class Person < Nemeable
-  attr_accessor :name, :age, :id, :parent_permission, :rentals
+  attr_accessor :name, :age, :rentals
+  attr_reader :id
 
   def initialize(age, name = 'Unknown', parent_permission: true)
     super()
@@ -28,8 +30,7 @@ class Person < Nemeable
     @name
   end
 
-  def add_rental(book)
-    @rentals.push(book)
-    book.rentals = self
+  def add_rental(date, book)
+    @rentals << Rental.new(date, book, self)
   end
 end
