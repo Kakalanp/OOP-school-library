@@ -57,6 +57,7 @@ class App
       puts "\nThere are not available books, try adding one => 4"
       menu
     else
+      puts "\nAll books in the library:\n"
       @books.each_with_index { |book, index| puts "(#{index + 1}): #{book.title}, By: #{book.author}" }
     end
     menu
@@ -67,8 +68,8 @@ class App
       puts "\nThere are not available people, try adding one => 3"
       menu
     else
-      organized_people = @people.sort_by { person.class }
-      organized_people.each_with_index do |person, index|
+      puts "\nPeople in the library:\n"
+      @people.each_with_index do |person, index|
         puts "(#{index + 1}): Name: #{person.name}, ID: #{person.id}, Age: #{person.age} Ocupation: #{person.class}"
       end
     end
@@ -77,7 +78,7 @@ class App
 
   # rubocop:disable Metrics/MethodLength
   def create_person
-    puts 'What ocupation does this person has?'
+    puts "\nWhat ocupation does this person has?"
     puts '(1) Student'
     puts '(2) Teacher'
     ocupation = gets.chomp.to_i
@@ -92,29 +93,29 @@ class App
         classroom = gets.chomp
         puts 'Has parent permission [Y/N]: '
         parent_permission = gets.chomp.downcase
-        @persons << Student.new(age, classroom, name, parent_permission)
+        @people << Student.new(age, classroom, name, parent_permission)
       when 2
         puts 'Specialization: '
         specialization = gets.chomp
-        @persons << Teacher.new(age, specialization, name)
+        @people << Teacher.new(age, specialization, name)
       end
-      puts 'Person Created succesfully'
+      puts "\n\nPerson Created succesfully!"
 
     else
       puts 'Invalid ocupation, try again => 3'
-      menu
     end
+    menu
   end
   # rubocop:enable Metrics/MethodLength
 
   def create_book
-    puts 'Provide book information.'
+    puts "\nProvide book information."
     print 'Title: '
     title = gets.chomp
     print 'Author: '
     author = gets.chomp
     @books << Book.new(title, author)
-    puts 'Book succesfully created'
+    puts "\n\nBook succesfully created!"
     menu
   end
 
@@ -131,8 +132,8 @@ class App
     person_index = gets.chomp.to_i
     print 'Date (yyyy mm dd):'
     date = gets.chomp
-    @rentals << @people[person_index].add_rental(date, @books[book_index])
-    puts 'Rental successfully added'
+    @rentals << @people[person_index - 1].add_rental(date, @books[book_index - 1])
+    puts "\n\nRental successfully added!"
     menu
   end
 
@@ -141,12 +142,13 @@ class App
       puts 'No rentals yet, try adding one => 5'
       menu
     else
+      puts "\nAll rentals added in the library:\n"
       @people.each do |person|
         puts "Ocupation: #{person.class} Name: #{person.name}, ID: #{person.id} "
       end
-      print 'Select the person ID: '
+      puts "\nSelect the person ID:"
       person_id = gets.chomp.to_i
-      puts "Rentals from person #{person_id}"
+      puts "\nRentals from person #{person_id}:\n"
       @rentals.each_with_index do |rental, index|
         if rental[index].person.id == person_id
           puts "Date: #{rental[index].date}, Book: #{rental[index].book.title} by #{rental[index].book.author}"
