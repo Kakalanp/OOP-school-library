@@ -34,12 +34,12 @@ class App
     end
   end
 
-  def create_student(name, age, classroom, parent_permission)
-    @people << Student.new(age, classroom, name, parent_permission)
+  def create_student(age, classroom, parent_permission, name)
+    @people << Student.new(age, classroom, parent_permission, name)
     puts "\n\nStudent Created succesfully!"
   end
 
-  def create_teacher(name, age, specialization)
+  def create_teacher(age, specialization, name)
     @people << Teacher.new(age, specialization, name)
     puts "\n\nTeacher Created succesfully!"
   end
@@ -55,11 +55,11 @@ class App
       classroom = gets.chomp
       puts 'Has parent permission [Y/N]: '
       parent_permission = gets.chomp.downcase
-      create_student(name, age, classroom, parent_permission)
+      create_student(age, classroom, parent_permission, name)
     when 2
       puts 'Specialization: '
       specialization = gets.chomp
-      create_teacher(name, age, specialization)
+      create_teacher(age, specialization, name)
     end
   end
 
@@ -93,19 +93,23 @@ class App
     puts "\n\nBook succesfully created!"
   end
 
-  def create_rental
-    puts 'Select a book from the following list'
-    @books.each_with_index do |book, index|
-      puts "(#{index + 1}): #{book.title}, By: #{book.author}"
-    end
+  def rental_details
+    puts "\nSelect a book from the following list"
+    list_books
     book_index = gets.chomp.to_i
-    puts 'Select a person from the following list'
-    @people.each_with_index do |person, index|
-      puts "(#{index + 1}): Name: #{person.name}, ID: #{person.id}, Age: #{person.age} Ocupation: #{person.class}"
-    end
+
+    puts "\nSelect a person from the following list"
+    list_people
     person_index = gets.chomp.to_i
+
     print 'Date (yyyy mm dd):'
     date = gets.chomp
+
+    [book_index, person_index, date]
+  end
+
+  def create_rental
+    book_index, person_index, date = rental_details
     @rentals << @people[person_index - 1].add_rental(date, @books[book_index - 1])
     puts "\n\nRental successfully added!"
   end
