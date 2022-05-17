@@ -75,13 +75,21 @@ class App
     end
   end
 
-  def create_book
+  def book_details
     puts "\nProvide book information."
     print 'Title: '
     title = gets.chomp
     print 'Author: '
     author = gets.chomp
+
+    [title, author]
+  end
+
+  def create_book
+    title, author = book_details
+
     @books << Book.new(title, author)
+
     puts "\n\nBook succesfully created!"
   end
 
