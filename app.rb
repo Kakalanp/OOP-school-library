@@ -34,36 +34,46 @@ class App
     end
   end
 
-  # rubocop:disable Metrics/MethodLength
+  def create_student(name, age, classroom, parent_permission)
+    @people << Student.new(age, classroom, name, parent_permission)
+    puts "\n\nStudent Created succesfully!"
+  end
+
+  def create_teacher(name, age, specialization)
+    @people << Teacher.new(age, specialization, name)
+    puts "\n\nTeacher Created succesfully!"
+  end
+
+  def get_person_details(ocupation)
+    puts 'Name: '
+    name = gets.chomp
+    puts 'Age: '
+    age = gets.chomp.to_i
+    case ocupation
+    when 1
+      puts 'Classroom: '
+      classroom = gets.chomp
+      puts 'Has parent permission [Y/N]: '
+      parent_permission = gets.chomp.downcase
+      create_student(name, age, classroom, parent_permission)
+    when 2
+      puts 'Specialization: '
+      specialization = gets.chomp
+      create_teacher(name, age, specialization)
+    end
+  end
+
   def create_person
     puts "\nWhat ocupation does this person has?"
     puts '(1) Student'
     puts '(2) Teacher'
     ocupation = gets.chomp.to_i
     if ocupation.between?(1, 2)
-      puts 'Name: '
-      name = gets.chomp
-      puts 'Age: '
-      age = gets.chomp.to_i
-      case ocupation
-      when 1
-        puts 'Classroom: '
-        classroom = gets.chomp
-        puts 'Has parent permission [Y/N]: '
-        parent_permission = gets.chomp.downcase
-        @people << Student.new(age, classroom, name, parent_permission)
-      when 2
-        puts 'Specialization: '
-        specialization = gets.chomp
-        @people << Teacher.new(age, specialization, name)
-      end
-      puts "\n\nPerson Created succesfully!"
-
+      get_person_details(ocupation)
     else
       puts 'Invalid ocupation, try again => 3'
     end
   end
-  # rubocop:enable Metrics/MethodLength
 
   def create_book
     puts "\nProvide book information."
