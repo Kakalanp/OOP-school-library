@@ -1,28 +1,20 @@
 require './app'
 
-# rubocop:disable Metrics/CyclomaticComplexity
 def options(option)
-  case option
-  when 1
-    @app.list_books
-  when 2
-    @app.list_people
-  when 3
-    @app.create_person
-  when 4
-    @app.create_book
-  when 5
-    @app.create_rental
-  when 6
-    @app.list_rental
-  when 7
-    puts 'Thanks for using the app, see you later!'
+  option_list = %w[list_books
+                   list_people
+                   create_person
+                   create_book
+                   create_rental
+                   list_rental
+                   exit]
+  if option.between?(1, 7)
+    @app.send(option_list[option - 1])
   else
     puts 'Invalid option, try again.'
-    menu
   end
+  menu
 end
-# rubocop:enable Metrics/CyclomaticComplexity
 
 def menu
   ["\n\nPlease choose an option by enterin a number:",

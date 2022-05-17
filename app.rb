@@ -15,25 +15,23 @@ class App
   def list_books
     if @books.empty?
       puts "\nThere are not available books, try adding one => 4"
-      menu
+
     else
       puts "\nAll books in the library:\n"
       @books.each_with_index { |book, index| puts "(#{index + 1}): #{book.title}, By: #{book.author}" }
     end
-    menu
   end
 
   def list_people
     if @people.empty?
       puts "\nThere are not available people, try adding one => 3"
-      menu
+
     else
       puts "\nPeople in the library:\n"
       @people.each_with_index do |person, index|
         puts "(#{index + 1}): Name: #{person.name}, ID: #{person.id}, Age: #{person.age} Ocupation: #{person.class}"
       end
     end
-    menu
   end
 
   # rubocop:disable Metrics/MethodLength
@@ -64,7 +62,6 @@ class App
     else
       puts 'Invalid ocupation, try again => 3'
     end
-    menu
   end
   # rubocop:enable Metrics/MethodLength
 
@@ -76,7 +73,6 @@ class App
     author = gets.chomp
     @books << Book.new(title, author)
     puts "\n\nBook succesfully created!"
-    menu
   end
 
   def create_rental
@@ -94,13 +90,12 @@ class App
     date = gets.chomp
     @rentals << @people[person_index - 1].add_rental(date, @books[book_index - 1])
     puts "\n\nRental successfully added!"
-    menu
   end
 
   def list_rental
     if @rentals.empty?
       puts 'No rentals yet, try adding one => 5'
-      menu
+
     else
       puts "\nAll rentals added in the library:\n"
       @people.each do |person|
@@ -115,6 +110,9 @@ class App
         end
       end
     end
-    menu
+  end
+
+  def exit
+    abort('Thanks for using the app, see you later!')
   end
 end
