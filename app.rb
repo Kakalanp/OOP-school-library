@@ -1,7 +1,8 @@
 ['./book_class', './classroom_class', './person_class', './rental_class', './student_class',
- './teacher_class'].each do |file|
+ './teacher_class', 'json'].each do |file|
   require file
 end
+
 
 class App
   attr_accessor :books, :people, :rentals
@@ -134,7 +135,18 @@ class App
     end
   end
 
+
+  def read_book_json
+    # ruby = JSON.parse('book.json')
+    File.foreach("book.json") { |line| 
+      return JSON.parse(line)
+    }
+  end
+
   def exit
+    @books.each do |book|
+        book.add_json_book
+    end
     abort('Thanks for using the app, see you later!')
   end
 end
