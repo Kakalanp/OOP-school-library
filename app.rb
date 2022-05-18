@@ -12,6 +12,7 @@ class App
     @people = []
 
     read_book_json
+    read_people_json
   end
 
   def list_books
@@ -146,6 +147,20 @@ class App
     puts @books
   end
 
+  def read_people_json
+      peoplelist = JSON.parse(File.read('people.json')) if File.exist?('people.json')
+      peoplelist.each do |person|
+        normal_person = JSON.parse(person)
+        if(normal_person[0] == 1)
+          @people << Student.new(normal_person[1], normal_person[2],normal_person[3], normal_person[4])
+        else
+          @people << Teacher.new(normal_person[1], normal_person[2], normal_person[3])
+        end
+      end
+      puts @people
+  end
+
+
   def save_book
     saved_books = []
 
@@ -156,8 +171,23 @@ class App
     File.write('book.json', saved_books)
   end
 
+  def save_person
+    saved_person = []
+
+    @people.each do |person|
+      if(person.class == Teacher)
+        saved_person.push(person.add_json_teacher)
+      else 
+        saved_person.push(person.add_json_student)
+      end
+    end
+
+    File.write('people.json', saved_person)
+  end
+
   def exit
     save_book
+    save_person
 
     abort('Thanks for using the app, see you later!')
   end

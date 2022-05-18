@@ -16,4 +16,8 @@ class Student < Person
   def play_hooky
     "¯\(ツ)/¯"
   end
+
+  def add_json_student
+    JSON.generate([1, @age, @classroom, @parent_permission, @name])
+  end
 end
