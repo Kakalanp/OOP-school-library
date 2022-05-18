@@ -9,4 +9,8 @@ class Teacher < Person
   def can_use_services?
     true
   end
+
+  def add_json_teacher
+    JSON.generate([2, @age, @specialization, @name])
+  end
 end

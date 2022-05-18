@@ -1,15 +1,19 @@
 ['./book_class', './classroom_class', './person_class', './rental_class', './student_class',
- './teacher_class'].each do |file|
+ './teacher_class', 'json'].each do |file|
   require file
 end
 
-class App
+class App # rubocop:disable Metrics/ClassLength
   attr_accessor :books, :people, :rentals
 
   def initialize
     @books = []
     @rentals = []
     @people = []
+
+    read_book_json
+    read_people_json
+    read_rentals_json
   end
 
   def list_books
@@ -115,6 +119,7 @@ class App
   end
 
   def list_rental
+    p @rentals
     if @rentals.empty?
       puts 'No rentals yet, try adding one => 5'
 
@@ -134,7 +139,83 @@ class App
     end
   end
 
+  def read_book_json
+    booklist = JSON.parse(File.read('book.json')) if File.exist?('book.json')
+    booklist.each do |book|
+      normal_book = JSON.parse(book)
+      @books << Book.new(normal_book[0], normal_book[1])
+    end
+  end
+
+  def read_people_json
+    peoplelist = JSON.parse(File.read('people.json')) if File.exist?('people.json')
+    peoplelist.each do |person|
+      normal_person = JSON.parse(person)
+      @people << if normal_person[0] == 1
+                   Student.new(normal_person[1], normal_person[2], normal_person[3], normal_person[4])
+                 else
+                   Teacher.new(normal_person[1], normal_person[2], normal_person[3])
+                 end
+    end
+  end
+
+  def read_rentals_json
+    rentallist = JSON.parse(File.read('rental.json')) if File.exist?('rental.json')
+    rentallist.each do |rental|
+      normal_rental = JSON.parse(rental)
+      @rentals << @people[normal_rental[2]].add_rental(normal_rental[0], @books[normal_rental[1]])
+    end
+  end
+
+  def save_book
+    saved_books = []
+
+    @books.each do |book|
+      saved_books.push(book.add_json_book)
+    end
+
+    File.write('book.json', saved_books)
+  end
+
+  def save_person
+    saved_person = []
+
+    @people.each do |person|
+      if person.instance_of?(Teacher)
+        saved_person.push(person.add_json_teacher)
+      else
+        saved_person.push(person.add_json_student)
+      end
+    end
+
+    File.write('people.json', saved_person)
+  end
+
+  def save_rental
+    saved_rental = []
+
+    @rentals.each_with_index do |rental, index|
+      rental_book = rental[index].book.title
+      rental_person = rental[index].person.id
+
+      @books.each_with_index do |book, i|
+        rental_book = i if book.title == rental_book
+      end
+
+      @people.each_with_index do |person, i|
+        rental_person = i if person.id == rental_person
+      end
+
+      saved_rental.push(rental[index].add_json_rental(rental_book, rental_person))
+    end
+
+    File.write('rental.json', saved_rental)
+  end
+
   def exit
+    save_book
+    save_person
+    save_rental
     abort('Thanks for using the app, see you later!')
   end
 end
