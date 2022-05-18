@@ -19,7 +19,7 @@ Imagine that you are a librarian of a University, this app allows you to record 
 
 - change to the directory using `cd OOP-school-library`
 
-- open with your prefffered code editor.
+- open with your preffered code editor.
 
  ## Running the project
 
