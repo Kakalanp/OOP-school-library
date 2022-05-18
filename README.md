@@ -1,7 +1,7 @@
 ![](https://img.shields.io/badge/Microverse-blueviolet)
  #  School Library
 Imagine that you are a librarian of a University, this app allows you to record what books are in the library and who borrows them.
- 
+
 
  ## Screenshot
 
@@ -15,13 +15,16 @@ Imagine that you are a librarian of a University, this app allows you to record 
  ## Getting Started
 
  To get a local copy up and running follow these simple example steps.
+- git clone  `https://github.com/Kakalanp/OOP-school-library.git`
 
- `https://github.com/Kakalanp/OOP-school-library.git`
+- change to the directory using `cd OOP-school-library`
+
+- open with your prefffered code editor.
 
  ## Running the project
 
 To run the project,
-- Navigate to the root directory of the project
+- Navigate to the root directory of the project `cd OOP-school-library`
 - run `ruby main.rb`
 -Follow the prompts displayed on the screen
 
