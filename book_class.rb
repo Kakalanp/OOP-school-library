@@ -15,7 +15,6 @@ class Book
   end
 
   def add_json_book
-    json = JSON.generate([@title, @author])
-    File.write("book.json", json, mode: "a")
+    JSON.generate([@title, @author])
   end
 end

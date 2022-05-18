@@ -3,7 +3,6 @@
   require file
 end
 
-
 class App
   attr_accessor :books, :people, :rentals
 
@@ -11,9 +10,12 @@ class App
     @books = []
     @rentals = []
     @people = []
+
+    read_book_json
   end
 
   def list_books
+    p @books
     if @books.empty?
       puts "\nThere are not available books, try adding one => 4"
 
@@ -135,18 +137,28 @@ class App
     end
   end
 
-
   def read_book_json
-    # ruby = JSON.parse('book.json')
-    File.foreach("book.json") { |line| 
-      return JSON.parse(line)
-    }
+    booklist = JSON.parse(File.read('book.json')) if File.exist?('book.json')
+    booklist.each do |book|
+      normal_book = JSON.parse(book)
+      @books << Book.new(normal_book[0], normal_book[1])
+    end
+    puts @books
+  end
+
+  def save_book
+    saved_books = []
+
+    @books.each do |book|
+      saved_books.push(book.add_json_book)
+    end
+
+    File.write('book.json', saved_books)
   end
 
   def exit
-    @books.each do |book|
-        book.add_json_book
-    end
+    save_book
+
     abort('Thanks for using the app, see you later!')
   end
 end
