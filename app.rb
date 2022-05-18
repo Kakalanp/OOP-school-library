@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 ['./book_class', './classroom_class', './person_class', './rental_class', './student_class',
  './teacher_class', 'json'].each do |file|
   require file
@@ -17,7 +18,6 @@ class App
   end
 
   def list_books
-    p @books
     if @books.empty?
       puts "\nThere are not available books, try adding one => 4"
 
@@ -146,7 +146,6 @@ class App
       normal_book = JSON.parse(book)
       @books << Book.new(normal_book[0], normal_book[1])
     end
-    puts @books
   end
 
   def read_people_json
@@ -159,7 +158,6 @@ class App
                    Teacher.new(normal_person[1], normal_person[2], normal_person[3])
                  end
     end
-    puts @people
   end
 
   def read_rentals_json
@@ -168,7 +166,6 @@ class App
       normal_rental = JSON.parse(rental)
       @rentals << @people[normal_rental[2]].add_rental(normal_rental[0], @books[normal_rental[1]])
     end
-    puts @rentals
   end
 
   def save_book
@@ -220,7 +217,8 @@ class App
     save_book
     save_person
     save_rental
-
     abort('Thanks for using the app, see you later!')
   end
 end
+
+# rubocop:enable Metrics/ClassLengthsub
