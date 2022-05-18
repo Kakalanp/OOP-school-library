@@ -119,6 +119,7 @@ class App
   end
 
   def list_rental
+      p @rentals
     if @rentals.empty?
       puts 'No rentals yet, try adding one => 5'
 
@@ -185,9 +186,21 @@ class App
     File.write('people.json', saved_person)
   end
 
+  def save_rental
+    saved_rental = []
+
+    @rentals.each do |rental|
+
+        saved_rental.push(rental.add_json_rental)
+    end
+
+    File.write('rental.json', saved_rental)
+  end
+
   def exit
     save_book
     save_person
+    save_rental
 
     abort('Thanks for using the app, see you later!')
   end

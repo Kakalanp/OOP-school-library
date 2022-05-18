@@ -9,4 +9,8 @@ class Rental
     book.rentals << self
     person.rentals << self
   end
+
+  def add_json_rental
+    JSON.generate([@date, @book, @person])
+  end
 end
