@@ -1,10 +1,10 @@
-class Nemeable
+class Nameable
   def correct_name
     raise NotImplementedError
   end
 end
 
-class BaseDecorator < Nemeable
+class BaseDecorator < Nameable
   def initialize(nameable)
     super()
     @nameable = nameable
