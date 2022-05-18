@@ -13,6 +13,7 @@ class App
 
     read_book_json
     read_people_json
+    read_rentals_json
   end
 
   def list_books
@@ -119,7 +120,7 @@ class App
   end
 
   def list_rental
-      p @rentals
+    p @rentals
     if @rentals.empty?
       puts 'No rentals yet, try adding one => 5'
 
@@ -149,18 +150,26 @@ class App
   end
 
   def read_people_json
-      peoplelist = JSON.parse(File.read('people.json')) if File.exist?('people.json')
-      peoplelist.each do |person|
-        normal_person = JSON.parse(person)
-        if(normal_person[0] == 1)
-          @people << Student.new(normal_person[1], normal_person[2],normal_person[3], normal_person[4])
-        else
-          @people << Teacher.new(normal_person[1], normal_person[2], normal_person[3])
-        end
-      end
-      puts @people
+    peoplelist = JSON.parse(File.read('people.json')) if File.exist?('people.json')
+    peoplelist.each do |person|
+      normal_person = JSON.parse(person)
+      @people << if normal_person[0] == 1
+                   Student.new(normal_person[1], normal_person[2], normal_person[3], normal_person[4])
+                 else
+                   Teacher.new(normal_person[1], normal_person[2], normal_person[3])
+                 end
+    end
+    puts @people
   end
 
+  def read_rentals_json
+    rentallist = JSON.parse(File.read('rental.json')) if File.exist?('rental.json')
+    rentallist.each do |rental|
+      normal_rental = JSON.parse(rental)
+      @rentals << @people[normal_rental[2]].add_rental(normal_rental[0], @books[normal_rental[1]])
+    end
+    puts @rentals
+  end
 
   def save_book
     saved_books = []
@@ -176,9 +185,9 @@ class App
     saved_person = []
 
     @people.each do |person|
-      if(person.class == Teacher)
+      if person.instance_of?(Teacher)
         saved_person.push(person.add_json_teacher)
-      else 
+      else
         saved_person.push(person.add_json_student)
       end
     end
@@ -189,9 +198,19 @@ class App
   def save_rental
     saved_rental = []
 
-    @rentals.each do |rental|
+    @rentals.each_with_index do |rental, index|
+      rental_book = rental[index].book.title
+      rental_person = rental[index].person.id
 
-        saved_rental.push(rental.add_json_rental)
+      @books.each_with_index do |book, i|
+        rental_book = i if book.title == rental_book
+      end
+
+      @people.each_with_index do |person, i|
+        rental_person = i if person.id == rental_person
+      end
+
+      saved_rental.push(rental[index].add_json_rental(rental_book, rental_person))
     end
 
     File.write('rental.json', saved_rental)
