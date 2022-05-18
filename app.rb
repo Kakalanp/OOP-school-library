@@ -1,10 +1,9 @@
-# rubocop:disable Metrics/ClassLength
 ['./book_class', './classroom_class', './person_class', './rental_class', './student_class',
  './teacher_class', 'json'].each do |file|
   require file
 end
 
-class App
+class App # rubocop:disable Metrics/ClassLength
   attr_accessor :books, :people, :rentals
 
   def initialize
@@ -220,5 +219,3 @@ class App
     abort('Thanks for using the app, see you later!')
   end
 end
-
-# rubocop:enable Metrics/ClassLengthsub
