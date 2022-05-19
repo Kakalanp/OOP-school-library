@@ -16,3 +16,18 @@ describe 'BaseDecorator' do
   end
 end
 
+describe 'CapitalizeDecorator' do
+  it 'Rises a NotImplementedError' do
+    capitalize_decorator = CapitalizeDecorator.new(Nameable.new)
+
+    expect { capitalize_decorator.correct_name }.to raise_error(NotImplementedError)
+  end
+end
+
+describe 'TrimmerDecorator' do
+  it 'Rises a NotImplementedError' do
+    trimmer_decorator = TrimmerDecorator.new(Nameable.new)
+
+    expect { trimmer_decorator.correct_name }.to raise_error
+  end
+end
