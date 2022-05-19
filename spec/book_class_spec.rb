@@ -13,4 +13,10 @@ describe 'Book' do
   it 'Is an instance of Rental' do
     @book.should be_an_instance_of Book
   end
+
+  describe '#name' do
+    it 'returns the correct author' do
+      @book.author.should eql 'Jordan B. Peterson'
+    end
+  end
 end

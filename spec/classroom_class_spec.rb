@@ -1,9 +1,13 @@
 require './classroom_class'
 
-describe 'Classroom' do
-  it 'creates a classroom with the correct parameters' do
-    classroom = Classroom.new('A-1')
+describe Classroom do
+  before(:each) do
+    @class = Classroom.new('SB')
+  end
 
-    expect(classroom.label).to eq('A-1')
+  describe '#label' do
+    it 'creates a classroom with the label' do
+      @class.label.should eql 'SB'
+    end
   end
 end
