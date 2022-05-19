@@ -28,6 +28,11 @@ To run the project,
 - run `ruby main.rb`
 -Follow the prompts displayed on the screen
 
+To run the tests on the project,
+- Navigate to the root directory of the project `cd OOP-school-library` in your terminal.
+- run `rspec spec` where `spec` is the folder in which the tests are resident.
+-The test results will be displayed on the terminal.
+
  ## Authors:
 
 ### 👤 Joaquin G.L. Zanetti
